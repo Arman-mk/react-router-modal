@@ -8,7 +8,7 @@ export interface IModalsProvider {
 }
 
 export interface IOptions<T> {
-  Component: ComponentType<T> | null;
+  Component: ComponentType<PropsWithChildren<T> & { zIndex: number }> | null;
   openKey?: string;
   closeKey?: string;
   props?: T;
@@ -38,6 +38,13 @@ export interface IRouteParams {
 
 export interface IProps {
   [key: string]: unknown;
+}
+
+export interface ILocation {
+  pathname: string;
+  state: {
+    props: IProps;
+  };
 }
 
 export interface INavigateParams {

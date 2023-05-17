@@ -8,13 +8,19 @@ import { gerRouteParams } from "./helpers";
 import { useModalsState } from "./use-modals-state";
 
 import { useMemo } from "react";
-import { INavigateParams, IProps, IRouteMap, IuseRouterModal } from "./types";
+import {
+  ILocation,
+  INavigateParams,
+  IProps,
+  IRouteMap,
+  IuseRouterModal,
+} from "./types";
 
 const useRouterModal = (
   defaultActiveRouteState: IRouteMap[] | undefined = []
 ): IuseRouterModal => {
   const navigate = useNavigate();
-  const { pathname, state } = useLocation();
+  const { pathname, state } = useLocation() as ILocation;
   let [searchParams] = useSearchParams();
   const activeRoutesState = useModalsState() || defaultActiveRouteState;
   const activeRoute = searchParams.get("modal");
@@ -27,7 +33,7 @@ const useRouterModal = (
 
   return {
     activeRoute,
-    stateProps: state?.props || {},
+    stateProps: state?.props ?? {},
     params: routeParams,
     activeRoutes: activeRoutesState,
     open: (key: string, params: INavigateParams = {}) => {
@@ -52,7 +58,7 @@ const useRouterModal = (
       );
     },
     close: () => {
-      navigate(-1, { state: {} });
+      navigate(-1);
     },
   };
 };
